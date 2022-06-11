@@ -44,10 +44,11 @@ cp -f /etc/openvpn/setup/openvpn.conf /etc/openvpn/openvpn.conf
 if [ ${OVPN_PASSWD_AUTH} = "true" ]; then
   mkdir -p /etc/openvpn/scripts/
   cp -f /etc/openvpn/setup/auth.sh /etc/openvpn/scripts/auth.sh
-  chmod +x /etc/openvpn/scripts/auth.sh
+  chmod +rx /etc/openvpn/scripts/auth.sh
   echo "auth-user-pass-verify /etc/openvpn/scripts/auth.sh via-file" | tee -a /etc/openvpn/openvpn.conf
   echo "script-security 2" | tee -a /etc/openvpn/openvpn.conf
   echo "verify-client-cert require" | tee -a /etc/openvpn/openvpn.conf
+  chmod o+r /etc/openvpn/easyrsa/pki/users.db
   openvpn-user db-init --db.path=$EASY_RSA_LOC/pki/users.db
 fi
 
