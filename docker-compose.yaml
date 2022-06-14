@@ -15,7 +15,7 @@ services:
       - NET_ADMIN
     ports:
       - 11194:1194 # for openvpn
-      - 11195:8080 # for ovpn-admin because of network_mode
+      # - 11195:8080 # for ovpn-admin because of network_mode
     volumes:
       - ./easyrsa_master:/etc/openvpn/easyrsa
       - ./ccd_master:/etc/openvpn/ccd
@@ -37,3 +37,12 @@ services:
     volumes:
       - ./easyrsa_master:/mnt/easyrsa
       - ./ccd_master:/mnt/ccd
+  nginx:
+    image: 'nginx'
+    ports:
+      - '11195:80'
+    links:
+      - 'openvpn'
+    volumes:
+      - './nginx/default.conf:/etc/nginx/conf.d/default.conf'
+      - './nginx/.htpasswd:/etc/nginx/.htpasswd'
